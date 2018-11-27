@@ -50,8 +50,8 @@ int main(){
   g1->GetV2()->Boost(0,0,beta); //return on lab frame
 
   if(debug) std::cout<< "LAB FRAME AFTER DECAY P1,P2" << std::endl;
-  if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<std::endl;
-  if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<std::endl;
+  if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+  if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
   if(debug) std::cout<<std::endl;
 
   //The two particle are in Lab frame
@@ -74,21 +74,43 @@ int main(){
   Edet2->SetStdev(par2*g1->GetV2()->P());
   
   
-  if(debug) std::cout<< "SCATTERING PROCESS..." << std::endl; 
-  
   if(g1->GetV1()->Pz()>0 && g1->GetV2()->Pz()>0 ){
+    if(debug) std::cout<< "SCATTERING PROCESS..." << std::endl; 
     for(int i=0;i<NScatDet;i++){
       Sdet1->ActionScat(g1->GetV1());
       Sdet2->ActionScat(g1->GetV2());      
       
-      if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<std::endl;
-      if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<std::endl;
+      if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+      if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
       if(debug) std::cout<<std::endl;
     }//chiudo for
-  }//chiudo if
+  }else{std::cout << "BAD PRODUCTION" << std::endl;}//chiudo if
 
-
+  if(debug) std::cout<< "ENERGY LOSS PROCESS..." << std::endl;
+  if(debug) std::cout<< "BEFORE" << std::endl;
   
+  if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+
+  if(debug) std::cout<<g1->GetV1()->Px()/g1->GetV1()->P()<<" "<<g1->GetV1()->Py()/g1->GetV1()->P() << " " << g1->GetV1()->Pz()/g1->GetV1()->P() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+
+
+  if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+  if(debug) std::cout<<g1->GetV2()->Px()/g1->GetV2()->P()<<" "<<g1->GetV2()->Py()/g1->GetV2()->P() << " " << g1->GetV2()->Pz()/g1->GetV2()->P() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+  if(debug) std::cout<<std::endl;
+  
+  Edet1->EnergyLoss(g1->GetV1());
+  Edet2->EnergyLoss(g1->GetV2());
+
+  if(debug) std::cout<< "AFTER" << std::endl;
+  
+  if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+
+  if(debug) std::cout<<g1->GetV1()->Px()/g1->GetV1()->P()<<" "<<g1->GetV1()->Py()/g1->GetV1()->P() << " " << g1->GetV1()->Pz()/g1->GetV1()->P() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
+
+
+  if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+  if(debug) std::cout<<g1->GetV2()->Px()/g1->GetV2()->P()<<" "<<g1->GetV2()->Py()/g1->GetV2()->P() << " " << g1->GetV2()->Pz()/g1->GetV2()->P() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+  if(debug) std::cout<<std::endl;
 
   
 }
