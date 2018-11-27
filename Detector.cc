@@ -9,7 +9,6 @@ Detector::Detector(Double_t m,Double_t s){
   
 }
 
-
 Double_t Detector::GausModifier(){
 
   TRandom rnd;

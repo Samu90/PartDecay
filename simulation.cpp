@@ -15,26 +15,24 @@
 #define par1 0.1
 #define par2 0.02
 #define NScatDet 3
+#define m0 5.3
+#define pz 4
+#define m1 0.5
+#define m2 0.13
 
 int main(){
 
   Generator* g1= new Generator();
-  Double_t m0,pz,beta,E,m1,m2;
+  Double_t beta,E;
   bool debug=true;
 
   
   //lab frame
-  m0=5.3;
-  pz=4;
-  m1=0.5;
-  m2=0.13;
   E=TMath::Sqrt(pz*pz+m0*m0);
   beta=pz/E;
   
   g1->GeneratePrimary(m0,pz);
-  std::cout<<g1->GetV0()->Theta()<<std::endl;
-  std::cout<<g1->GetV0()->Phi()<<std::endl;
-  
+    
   if(debug) std::cout<< "PRIMARY PARTICLE GENERATED LAB FRAME"<<std::endl;
   if(debug) std::cout<<g1->GetV0()->Px()<<" "<<g1->GetV0()->Py() << " " << g1->GetV0()->Pz() << " "<< g1->GetV0()->E()<<std::endl;
   if(debug) std::cout<<std::endl;
@@ -87,15 +85,15 @@ int main(){
   }else{std::cout << "BAD PRODUCTION" << std::endl;}//chiudo if
 
   if(debug) std::cout<< "ENERGY LOSS PROCESS..." << std::endl;
+
   if(debug) std::cout<< "BEFORE" << std::endl;
   
   if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
-
   if(debug) std::cout<<g1->GetV1()->Px()/g1->GetV1()->P()<<" "<<g1->GetV1()->Py()/g1->GetV1()->P() << " " << g1->GetV1()->Pz()/g1->GetV1()->P() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
-
 
   if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
   if(debug) std::cout<<g1->GetV2()->Px()/g1->GetV2()->P()<<" "<<g1->GetV2()->Py()/g1->GetV2()->P() << " " << g1->GetV2()->Pz()/g1->GetV2()->P() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+
   if(debug) std::cout<<std::endl;
   
   Edet1->EnergyLoss(g1->GetV1());
@@ -104,12 +102,11 @@ int main(){
   if(debug) std::cout<< "AFTER" << std::endl;
   
   if(debug) std::cout<<g1->GetV1()->Px()<<" "<<g1->GetV1()->Py() << " " << g1->GetV1()->Pz() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
-
   if(debug) std::cout<<g1->GetV1()->Px()/g1->GetV1()->P()<<" "<<g1->GetV1()->Py()/g1->GetV1()->P() << " " << g1->GetV1()->Pz()/g1->GetV1()->P() << " "<< g1->GetV1()->E()<<"     "<<g1->GetV1()->M()<<std::endl;
-
 
   if(debug) std::cout<<g1->GetV2()->Px()<<" "<<g1->GetV2()->Py() << " " << g1->GetV2()->Pz() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
   if(debug) std::cout<<g1->GetV2()->Px()/g1->GetV2()->P()<<" "<<g1->GetV2()->Py()/g1->GetV2()->P() << " " << g1->GetV2()->Pz()/g1->GetV2()->P() << " "<< g1->GetV2()->E()<<"     "<<g1->GetV2()->M()<<std::endl;
+
   if(debug) std::cout<<std::endl;
 
   
