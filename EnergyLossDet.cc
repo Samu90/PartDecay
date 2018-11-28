@@ -8,6 +8,8 @@
 
 EnergyLossDet::EnergyLossDet(){}
 
+EnergyLossDet::~EnergyLossDet(){}
+
 void EnergyLossDet::EnergyLoss(TLorentzVector* vec){
 
   Double_t ELoss,NewE,NewP,M;

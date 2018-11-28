@@ -27,6 +27,8 @@ void Sphere(Double_t* x, Double_t* y, Double_t* z, Double_t r=1)
 
 Generator::Generator(){}
 
+Generator::~Generator(){}
+
 void Generator::GeneratePrimary(Double_t m0, Double_t pz){
 
   Double_t E=TMath::Sqrt(m0*m0+pz*pz);

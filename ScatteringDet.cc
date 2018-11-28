@@ -6,6 +6,8 @@
 
 ScatteringDet::ScatteringDet(){}
 
+ScatteringDet::~ScatteringDet(){}
+
 void ScatteringDet::ActionScat(TLorentzVector* vec){
   Double_t p, theta, phi;
   theta=vec->Theta();
