@@ -164,8 +164,8 @@ int main(int argc, char *argv[]){
   TH1D* HistoResp[2];
   
   for (i=0;i<4;i++){
-    if(i<2) HistoResp[i]=new TH1D(("Response M"+std::to_string(i+1)).c_str(),("Response M"+std::to_string(i+1)).c_str(),200,0.6,1);
-    HistoInvMass[i]= new TH1D(("InvmassDet"+std::to_string(i+1)).c_str(),("InvmassDet"+std::to_string(i+1)).c_str(),200,1,7);
+    if(i<2) HistoResp[i]=new TH1D(("Response M"+std::to_string(i+1)).c_str(),("Response M"+std::to_string(i+1)).c_str(),150,0.6,1);
+    HistoInvMass[i]= new TH1D(("InvmassDet"+std::to_string(i+1)).c_str(),("InvmassDet"+std::to_string(i+1)).c_str(),300,4,6);
   }
 
   
