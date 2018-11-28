@@ -13,6 +13,7 @@
 #include "TH1D.h"
 #include "TCanvas.h"
 #include "TROOT.h"
+#include "TRandom.h"
 //#define pmax 3.5 //da configurare a mano
 //#define thmax 0.01 //da configurare a mano
 #define par1 0.1
@@ -31,11 +32,11 @@ Double_t InvMass(TLorentzVector* v1, TLorentzVector* v2){
   return (temp.M());
 }
 
-void Process(Double_t pmax, Double_t thmax, Double_t* dataVec){
+void Process(Double_t pmax, Double_t thmax, Double_t* dataVec,TRandom* rnd){
 
-  Generator* g1= new Generator();
+  Generator* g1= new Generator(rnd);
   Double_t beta,E,Ei1,Ei2;
-  bool debug=true;
+  bool debug=false;
 
   
   //lab frame
@@ -73,25 +74,29 @@ void Process(Double_t pmax, Double_t thmax, Double_t* dataVec){
   ScatteringDet* Sdet1= new ScatteringDet();
   Sdet1->SetMean(0);
   Sdet1->SetStdev(pmax*thmax/g1->GetV1()->P());
+  Sdet1->SetGen(rnd);
 
   ScatteringDet* Sdet2= new ScatteringDet();
   Sdet2->SetMean(0);
   Sdet2->SetStdev(pmax*thmax/g1->GetV2()->P());
-
+  Sdet2->SetGen(rnd);
+  
   EnergyLossDet* Edet1= new EnergyLossDet();
   Edet1->SetMean(par1*g1->GetV1()->P());
   Edet1->SetStdev(par2*g1->GetV1()->P());
+  Edet1->SetGen(rnd);
   
   EnergyLossDet* Edet2= new EnergyLossDet();
   Edet2->SetMean(par1*g1->GetV2()->P());
   Edet2->SetStdev(par2*g1->GetV2()->P());
-  
+  Edet2->SetGen(rnd);
   
   // if(g1->GetV1()->Pz()>0 && g1->GetV2()->Pz()>0 ){
 
     if(debug) std::cout<< "SCATTERING PROCESS..." << std::endl; 
 
     for(int i=0;i<NScatDet;i++){
+      
       Sdet1->ActionScat(g1->GetV1());
       Sdet2->ActionScat(g1->GetV2());      
 
@@ -135,15 +140,14 @@ void Process(Double_t pmax, Double_t thmax, Double_t* dataVec){
   dataVec[5]= g1->GetV2()->E()/Ei2;
 
 
-  delete g1,Sdet1,Sdet2,Edet1,Edet2;
+  //delete g1,Sdet1,Sdet2,Edet1,Edet2;
 }
 
 
 int main(int argc, char *argv[]){
 
   //gROOT->SetBatch(kTRUE);
-
-  
+  TRandom* rnd=new TRandom(time(0));
   Double_t pmax,thmax;
   Double_t Nrms=7;
   Double_t data[6]={0}; //0...3 invariant mass after detector, 4,5 response for m1 and m2
@@ -160,13 +164,13 @@ int main(int argc, char *argv[]){
   TH1D* HistoResp[2];
   
   for (i=0;i<4;i++){
-    if(i<2) HistoResp[i]=new TH1D(("Response M"+std::to_string(i+1)).c_str(),("Response M"+std::to_string(i+1)).c_str(),2000,0.8,1.1);
-    HistoInvMass[i]= new TH1D(("InvmassDet"+std::to_string(i+1)).c_str(),("InvmassDet"+std::to_string(i+1)).c_str(),2000,4.75,5.35);
+    if(i<2) HistoResp[i]=new TH1D(("Response M"+std::to_string(i+1)).c_str(),("Response M"+std::to_string(i+1)).c_str(),200,0.6,1);
+    HistoInvMass[i]= new TH1D(("InvmassDet"+std::to_string(i+1)).c_str(),("InvmassDet"+std::to_string(i+1)).c_str(),200,1,7);
   }
 
   
-  for(i=0;i<2;i++){
-    Process(pmax,thmax,data);
+  for(i=0;i<nevent;i++){
+    Process(pmax,thmax,data,rnd);
     HistoInvMass[0]->Fill(data[0]);
     HistoInvMass[1]->Fill(data[1]);
     HistoInvMass[2]->Fill(data[2]);
@@ -190,7 +194,7 @@ int main(int argc, char *argv[]){
       HistoResp[i]->Draw("HISTO");
     }
     CanvInvMass->cd(i+1);
-    HistoInvMass[i]->GetXaxis()->SetRangeUser(HistoInvMass[i]->GetMean()-5*HistoInvMass[i]->GetRMS(),HistoInvMass[i]->GetMean()+5*HistoInvMass[i]->GetRMS());
+    HistoInvMass[i]->GetXaxis()->SetRangeUser(HistoInvMass[i]->GetMean()-5.5*HistoInvMass[i]->GetRMS(),HistoInvMass[i]->GetMean()+5*HistoInvMass[i]->GetRMS());
     HistoInvMass[i]->Draw("HISTO");
   }
   

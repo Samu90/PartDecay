@@ -1,17 +1,13 @@
 #include "Detector.h"
 #include "TRandom.h"
+#include "Generator.h"
 
 Detector::Detector(){}
 
-Detector::Detector(Double_t m,Double_t s){
-  mean_=m;
-  stdev_=s;
-  
+void Detector::SetGen(TRandom* rand){
+  rnd_=rand;
 }
 
 Double_t Detector::GausModifier(){
-
-  TRandom rnd;
-  return rnd.Gaus(Detector::GetMean(),Detector::GetStdev());
-  
+  return rnd_->Gaus(Detector::GetMean(),Detector::GetStdev());
 }
